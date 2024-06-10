@@ -9,7 +9,7 @@ const {
     projectKey,    // Clave única del proyecto en SonarQube
     token,         // Token de autenticación generado en SonarQube
     sourcePath,    // Ruta al código fuente que será analizado
-    projectType,   // Tipo de proyecto (por ejemplo, 'js' para JavaScript)
+    projectLanguaje,   // Tipo de proyecto (por ejemplo, 'js' para JavaScript)
     serverUrl,     // URL del servidor SonarQube
 } = argumentHandlerService.initArgs();
 
@@ -18,7 +18,7 @@ const sonarQubeService = new SonarQubeService(
     projectKey,
     token,
     sourcePath,
-    projectType,
+    projectLanguaje,
     serverUrl,
 );
 

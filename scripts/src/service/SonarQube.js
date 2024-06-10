@@ -2,11 +2,11 @@ const sonarqubeScanner = require('sonarqube-scanner').default; // Importa el esc
 const path = require('path'); // Importa el módulo path de Node.js
 
 class SonarQubeService {
-    constructor(projectKey, token, sourcePath, projectType, serverUrl) {
+    constructor(projectKey, token, sourcePath, projectLanguaje, serverUrl) {
         this.projectKey = projectKey;
         this.token = token;
         this.sourcePath = sourcePath;
-        this.projectType = projectType;
+        this.projectLanguaje = projectLanguaje;
         this.serverUrl = serverUrl;
     }
 
@@ -20,7 +20,7 @@ class SonarQubeService {
                 serverUrl: this.serverUrl,
                 options: {
                     ...this.getInitialProjectConfig(),
-                    ...this.getProjectTypeConfig(this.projectType),
+                    ...this.getProjectLanguajeConfig(this.projectLanguaje),
                 },
             },
             () => {
@@ -57,11 +57,11 @@ class SonarQubeService {
 
     /**
      * Obtiene la configuración específica del proyecto según su tipo
-     * @param {string} type - El tipo de proyecto
+     * @param {string} languaje - El tipo de proyecto
      * @returns {Object} - Configuración específica del proyecto
      */
-    getProjectTypeConfig(type) {
-        switch (type) {
+    getProjectLanguajeConfig(languaje) {
+        switch (languaje) {
             case 'js':
                 return {
                     'sonar.language': 'js',

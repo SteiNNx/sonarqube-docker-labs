@@ -4,7 +4,7 @@ const {
     ARGV_INDEX_PROJECT_KEY,
     ARGV_INDEX_TOKEN,
     ARGV_INDEX_SOURCE_PATH,
-    ARGV_INDEX_PROJECT_TYPE,
+    ARGV_INDEX_PROJECT_LANGUAJE,
     ARGV_INDEX_SERVER_URL,
 } = require('@src/constants/Constants');  // Importa las constantes relacionadas con los argumentos
 const {
@@ -15,7 +15,7 @@ const {
     PROPERTIE_PROJECT_KEY,
     PROPERTIE_TOKEN,
     PROPERTIE_SOURCE_PATH,
-    PROPERTIE_PROJECT_TYPE,
+    PROPERTIE_PROJECT_LANGUAJE,
     PROPERTIE_SERVER_URL,
 } = require('@src/constants/SonarQube');  // Importa las propiedades por defecto de SonarQube
 
@@ -39,14 +39,14 @@ class ArgumentHandlerService {
         const projectKey = this.argumentHandlerInstance.getArgument(ARGV_INDEX_PROJECT_KEY, PROPERTIE_PROJECT_KEY);
         const token = this.argumentHandlerInstance.getArgument(ARGV_INDEX_TOKEN, PROPERTIE_TOKEN);
         const sourcePath = this.argumentHandlerInstance.getArgument(ARGV_INDEX_SOURCE_PATH, PROPERTIE_SOURCE_PATH);
-        const projectType = this.argumentHandlerInstance.getArgument(ARGV_INDEX_PROJECT_TYPE, PROPERTIE_PROJECT_TYPE);
+        const projectLanguaje = this.argumentHandlerInstance.getArgument(ARGV_INDEX_PROJECT_LANGUAJE, PROPERTIE_PROJECT_LANGUAJE);
         const serverUrl = this.argumentHandlerInstance.getArgument(ARGV_INDEX_SERVER_URL, PROPERTIE_SERVER_URL);
 
         return {
             projectKey,
             token,
             sourcePath,
-            projectType,
+            projectLanguaje,
             serverUrl,
         };
     }

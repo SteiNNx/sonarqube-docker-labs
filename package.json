@@ -4,7 +4,7 @@
   "description": "Proyecto de laboratorio para SonarQube",
   "main": "scripts/index.js",
   "scripts": {
-    "sonar": "node scripts/src/index.js <key_project> <token> <folder_source> <languaje>",
+    "sonar": "node scripts/index.js <projectKey> <token> <sourcePath> <projectType>",
     "test": "nyc --reporter=lcov --report-dir=code/coverage mocha code/src/tests/indexTest.spec.ts"
   },
   "_moduleAliases": {
