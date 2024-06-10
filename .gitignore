@@ -1,0 +1,19 @@
+## nyc_output dependency generated binary 
+./nyc_output
+/nyc_output
+/.nyc_output
+
+## sonnar-scanner dependency generated binary client report
+./scripts/.scannerwork
+/scripts/.scannerwork
+/.scripts/.scannerwork
+./scannerwork
+.scannerwork
+
+## node_modules
+./node_modules
+/node_modules
+/.node_modules
+
+## all files genereted
+/code/coverage/**

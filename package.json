@@ -1,0 +1,24 @@
+{
+  "name": "sonarqube-dockerized",
+  "version": "1.0.0",
+  "description": "Proyecto de laboratorio para SonarQube",
+  "main": "scripts/index.js",
+  "scripts": {
+    "sonar": "node scripts/src/index.js <key_project> <token> <folder_source> <languaje>",
+    "test": "nyc --reporter=lcov --report-dir=code/coverage mocha code/src/tests/indexTest.spec.ts"
+  },
+  "_moduleAliases": {
+    "@create": "scripts/src/index.js",
+    "@root/": ".",
+    "@src": "scripts/src"
+  },
+  "devDependencies": {
+    "assert": "2.1.0",
+    "mocha": "10.4.0",
+    "nyc": "15.1.0",
+    "sonarqube-scanner": "4.0.1"
+  },
+  "dependencies": {
+    "module-alias": "^2.2.3"
+  }
+}
