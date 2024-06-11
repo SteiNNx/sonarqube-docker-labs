@@ -4,8 +4,10 @@
 // Valores por defecto para la configuración del proyecto SonarQube
 const PROPERTIE_PROJECT_KEY = 'code-example-labs';  // Clave única del proyecto en SonarQube
 const PROPERTIE_TOKEN = '<aqui_tu_token_sonarqube_analizer>';  // Token de autenticación generado en SonarQube
-const PROPERTIE_SOURCE_PATH = './code/src';  // Ruta al código fuente que será analizado
-const PROPERTIE_PROJECT_LANGUAJE = 'js';  // Tipo de proyecto (por ejemplo, 'js', 'java', 'python', etc.)
+//const PROPERTIE_SOURCE_PATH = './code/android_app';  // Ruta al código fuente que será analizado
+const PROPERTIE_SOURCE_PATH = './code/node_app/src'; // Ruta al código fuente que será analizado
+//const PROPERTIE_SOURCE_PATH = './code/php_app'; // Ruta al código fuente que será analizado
+const PROPERTIE_PROJECT_LANGUAJE = 'js';  // Tipo de proyecto (por ejemplo, 'js', 'android-java', 'python', etc.)
 const PROPERTIE_SERVER_URL = 'http://localhost:9000';  // URL del servidor SonarQube
 
 /** Object Default */

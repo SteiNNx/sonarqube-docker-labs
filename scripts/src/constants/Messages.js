@@ -18,8 +18,8 @@ Defecto:
   serverUrl         : '${PROPERTIE_SERVER_URL}'  // URL del servidor SonarQube
 
 Ejemplos:
-  node scripts/index.js myProject myToken ./code/src js http://localhost:9000
-  node scripts/index.js myProject myToken ./code/src java http://localhost:9000
+  node scripts/index.js myProject myToken ./code/node_app/src js http://localhost:9000
+  node scripts/index.js myProject myToken ./code/java_app/src java http://localhost:9000
 `;
 
 module.exports = {

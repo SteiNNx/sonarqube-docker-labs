@@ -16,4 +16,6 @@
 /.node_modules
 
 ## all files genereted
-/code/coverage/**
+./coverage/**
+/coverage/**
+/.coverage/**

@@ -102,7 +102,7 @@ class SonarQubeService {
      */
     getProjectShitsConfig() {
         return {
-            'sonar.javascript.lcov.reportPaths': path.join(this.sourcePath, 'scripts/coverage/lcov.info'),
+            'sonar.javascript.lcov.reportPaths': path.join(this.sourcePath, 'coverage/lcov.info'),
         };
     }
 }

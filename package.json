@@ -5,7 +5,7 @@
   "main": "scripts/index.js",
   "scripts": {
     "sonar": "node scripts/index.js <projectKey> <token> <sourcePath> <projectType>",
-    "test": "nyc --reporter=lcov --report-dir=code/coverage mocha code/src/tests/indexTest.spec.ts"
+    "test": "nyc --reporter=lcov --report-dir=coverage mocha code/src/tests/indexTest.spec.ts"
   },
   "_moduleAliases": {
     "@create": "scripts/src/index.js",

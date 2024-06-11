@@ -1,0 +1,4 @@
+<!-- strings.xml -->
+<resources>
+    <string name="app_name">HelloWorldApp</string>
+</resources>
