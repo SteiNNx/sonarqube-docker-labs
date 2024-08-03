@@ -1,0 +1,36 @@
+{
+    "extends": "standard",
+    "rules": {
+        "semi": [
+            "error",
+            "never"
+        ],
+        "indent": [
+            "error",
+            4
+        ]
+    },
+    "overrides": [
+        {
+            "files": [
+                "*.js"
+            ],
+            "rules": {
+                "semi": [
+                    "error",
+                    "always"
+                ]
+            }
+        },
+        {
+            "files": ["*.test.js", "*.spec.js"],
+            "rules": {
+                "no-unused-expressions": "off"
+            }
+        }
+    ],
+    "ignorePatterns": [
+        "**/*.bash",
+        "**/docker/**"
+    ]
+}

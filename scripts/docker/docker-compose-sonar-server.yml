@@ -1,0 +1,60 @@
+version: "3.8"
+services:
+    sonarqube:
+        hostname: ${SONARQUBE_HOSTNAME}
+        container_name: ${SONARQUBE_CONTAINER_NAME}
+        image: ${SONARQUBE_IMAGE}
+        depends_on:
+            sonarqube-database:
+                condition: service_healthy
+        healthcheck:
+            test: ["CMD-SHELL", "curl --silent --fail http://localhost:9000/api/system/health"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+        environment:
+            - SONARQUBE_JDBC_USERNAME=${SONARQUBE_JDBC_USERNAME}
+            - SONARQUBE_JDBC_PASSWORD=${SONARQUBE_JDBC_PASSWORD}
+            - SONARQUBE_JDBC_URL=${SONARQUBE_JDBC_URL}
+        volumes:
+            - sonarqube_conf:/opt/sonarqube/conf
+            - sonarqube_data:/opt/sonarqube/data
+            - sonarqube_extensions:/opt/sonarqube/extensions
+            - sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins
+        ports:
+            - ${SONARQUBE_PORT}:9000
+        networks:
+            - sonarqube-net
+
+    sonarqube-database:
+        hostname: ${POSTGRES_HOSTNAME}
+        container_name: ${POSTGRES_CONTAINER_NAME}
+        image: ${POSTGRES_IMAGE}
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        environment:
+            - POSTGRES_DB=${POSTGRES_DB}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        volumes:
+            - sonarqube_database:/var/lib/postgresql
+            - sonarqube_database_data:/var/lib/postgresql/data
+        ports:
+            - ${POSTGRES_PORT}:5432
+        networks:
+            - sonarqube-net
+
+volumes:
+    sonarqube_database_data:
+    sonarqube_bundled-plugins:
+    sonarqube_conf:
+    sonarqube_data:
+    sonarqube_database:
+    sonarqube_extensions:
+
+networks:
+    sonarqube-net:
+        driver: bridge

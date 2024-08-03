@@ -1,0 +1,21 @@
+{
+  "name": "sonarqube-docker-labs",
+  "version": "1.1.1",
+  "description": "Proyecto de laboratorio para SonarQube",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "sonar": "node index.js <projectKey> <token> <sourcePath> <projectType>"
+  },
+  "_moduleAliases": {
+    "@create": "src/main.js",
+    "@root/": ".",
+    "@src": "src"
+  },
+  "devDependencies": {
+    "sonarqube-scanner": "4.0.1"
+  },
+  "dependencies": {
+    "module-alias": "^2.2.3"
+  }
+}

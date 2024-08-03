@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@create": [
+                "src/js/index.js"
+            ],
+            "@root/*": [
+                "./*"
+            ],
+            "@src/*": [
+                "src/*"
+            ]
+        }
+    },
+    "include": [
+        "scripts/**/*",
+        "src/**/*",
+        "index.js"
+    ]
+}
