@@ -18,7 +18,7 @@ describe('index.js', () => {
             projectKey: 'testKey',
             projectName: 'testProject',
             token: 'testToken',
-            projectLanguage: 'js'
+            projectLanguaje: 'js'
         });
         ArgumentHandlerService.initArgs = mockInitArgs;
 
@@ -44,7 +44,7 @@ describe('index.js', () => {
             projectKey: 'testKey',
             projectName: 'testProject',
             token: 'testToken',
-            projectLanguage: 'js'
+            projectLanguaje: 'js'
         });
     });
 
@@ -55,14 +55,14 @@ describe('index.js', () => {
             projectKey: 'testKey',
             projectName: 'testProject',
             token: 'testToken',
-            projectLanguage: 'js'
+            projectLanguaje: 'js'
         });
 
         const sonarQubeServiceInstance = new SonarQubeService(
             args.projectKey,
             args.projectName,
             args.token,
-            args.projectLanguage
+            args.projectLanguaje
         );
 
         sonarQubeServiceInstance.setupConfiguration();
@@ -82,7 +82,7 @@ describe('index.js', () => {
             projectKey: 'testKey',
             projectName: 'testProject',
             token: 'testToken',
-            projectLanguage: 'js'
+            projectLanguaje: 'js'
         });
 
         // Importa y ejecuta el archivo `index.js`
@@ -96,7 +96,7 @@ describe('index.js', () => {
             projectKey: 'testKey',
             projectName: 'testProject',
             token: 'testToken',
-            projectLanguage: 'js'
+            projectLanguaje: 'js'
         });
 
         // Limpia los spies

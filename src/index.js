@@ -31,6 +31,8 @@ const argumentHandlerService = new ArgumentHandlerService();
 
 // Obtener los argumentos del proyecto
 const args = argumentHandlerService.initArgs();
+console.log({ args });
+
 /**
  * Desestructurar los argumentos obtenidos para extraer las propiedades necesarias.
  * @type {ProjectArgs}
@@ -39,11 +41,11 @@ const {
     projectKey,
     projectName,
     token,
-    projectLanguage
+    projectLanguaje
 } = args;
 
 // Validar que todos los argumentos necesarios estén presentes
-if (!projectKey || !projectName || !token || !projectLanguage) {
+if (!projectKey || !projectName || !token || !projectLanguaje) {
     console.error('Error de inicialización: faltan argumentos requeridos.');
     process.exit(1); // Salir del proceso con código de error
 }
@@ -53,7 +55,7 @@ const sonarQubeService = new SonarQubeService(
     projectKey,
     projectName,
     token,
-    projectLanguage
+    projectLanguaje
 );
 
 // Configurar el servicio de SonarQube con la configuración necesaria

@@ -5,7 +5,7 @@ const { ENVIRONMENT, SONARQUBE_URL_ENDPOINT, SOURCE_PATH_CODE_TO_ANALIZE } = req
 
 // Mock para sonarqube-scanner
 jest.mock('sonarqube-scanner', () => ({
-    default: jest.fn(), // No necesitamos definir un comportamiento para el mock en este caso
+    default: jest.fn() // No necesitamos definir un comportamiento para el mock en este caso
 }));
 
 describe('SonarQubeService', () => {
@@ -25,7 +25,7 @@ describe('SonarQubeService', () => {
 
     test('debería devolver la configuración inicial del proyecto', () => {
         const initialConfig = sonarQubeService.getInitialProjectConfig();
-        
+
         expect(initialConfig).toEqual({
             'sonar.projectKey': 'projectKey',
             'sonar.token': 'token',
@@ -33,6 +33,7 @@ describe('SonarQubeService', () => {
             'sonar.projectBaseDir': path.resolve(__dirname, '../../../'),
             'sonar.log.level': ENVIRONMENT === 'development' ? 'DEBUG' : 'INFO',
             'sonar.sourceEncoding': 'UTF-8',
+            'sonar.scm.exclusions.disabled': true
         });
     });
 
@@ -41,32 +42,32 @@ describe('SonarQubeService', () => {
         expect(jsConfig).toEqual({
             'sonar.language': 'js',
             'sonar.javascript.file.suffixes': '.js,.jsx',
-            'sonar.test.inclusions': '**/*.spec.js,**/*.spec.jsx,**/*.spec.ts,**/*.spec.tsx',
+            'sonar.test.inclusions': '**/*.spec.js,**/*.spec.jsx,**/*.spec.ts,**/*.spec.tsx'
         });
 
         const phpConfig = sonarQubeService.getprojectLanguajeConfig('php');
         expect(phpConfig).toEqual({
             'sonar.language': 'php',
-            'sonar.test.inclusions': '**/*.php',
+            'sonar.test.inclusions': '**/*.php'
         });
 
         const pythonConfig = sonarQubeService.getprojectLanguajeConfig('python');
         expect(pythonConfig).toEqual({
             'sonar.language': 'py',
-            'sonar.test.inclusions': '**/*.py',
+            'sonar.test.inclusions': '**/*.py'
         });
 
         const defaultConfig = sonarQubeService.getprojectLanguajeConfig('unknown');
         expect(defaultConfig).toEqual({
             'sonar.language': 'js,php,py,java,kotlin',
-            'sonar.test.inclusions': '**/*.kt,**/*.java,**/*.py,**/*.php,**/*.spec.js,**/*.spec.jsx,**/*.spec.ts,**/*.spec.tsx',
+            'sonar.test.inclusions': '**/*.kt,**/*.java,**/*.py,**/*.php,**/*.spec.js,**/*.spec.jsx,**/*.spec.ts,**/*.spec.tsx'
         });
     });
 
     test('debería devolver la configuración de exclusiones', () => {
         const exclusionsConfig = sonarQubeService.getExclusionsConfig();
         expect(exclusionsConfig).toEqual({
-            'sonar.exclusions': '**/package.json,**/node_modules/**,.gitignore',
+            'sonar.exclusions': '**/package.json,**/node_modules/**,.gitignore'
         });
     });
 

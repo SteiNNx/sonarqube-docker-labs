@@ -81,7 +81,8 @@ class SonarQubeService {
             'sonar.sources': this.sourcePath,
             'sonar.projectBaseDir': this.projectBaseDir,
             'sonar.log.level': ENVIRONMENT === 'development' ? 'DEBUG' : 'INFO',
-            'sonar.sourceEncoding': 'UTF-8'
+            'sonar.sourceEncoding': 'UTF-8',
+            'sonar.scm.exclusions.disabled': true
         };
     }
 
