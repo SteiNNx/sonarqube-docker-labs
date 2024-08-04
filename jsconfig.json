@@ -2,9 +2,6 @@
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
-            "@create": [
-                "src/js/index.js"
-            ],
             "@src/*": [
                 "src/*"
             ]
@@ -12,7 +9,6 @@
     },
     "include": [
         "scripts/**/*",
-        "src/**/*",
-        "index.js"
+        "src/**/*"
     ]
 }

@@ -2,11 +2,11 @@
  * @fileoverview
  * @author Jorge Reyes (@steinnx en GitHub)
  * @description
- * Aplicación Node.js que analiza el código en un servidor SonarQube local (localhost:9000),
- * el cual debe estar previamente levantado utilizando un archivo docker-compose.yml.
- * 
- * Este archivo es el punto de entrada de la aplicación, donde se configuran y ejecutan
- * los servicios necesarios para realizar el análisis del código con SonarQube.
+ * Este módulo es el punto de entrada para una aplicación Node.js que realiza
+ * el análisis de código utilizando un servidor SonarQube local (localhost:9000).
+ * Asegúrate de que el servidor SonarQube esté en funcionamiento antes de
+ * ejecutar esta aplicación, utilizando un archivo docker-compose.yml para su
+ * configuración.
  * 
  * @version 1.0.0
  * @module index
@@ -20,20 +20,21 @@ const ArgumentHandlerService = require('@src/services/ArgumentHandlerService');
 const SonarQubeService = require('@src/services/SonarQubeService');
 
 /**
- * Crear una instancia de ArgumentHandlerService para manejar los argumentos del proyecto.
- * 
- * @type {ArgumentHandlerService}
+ * @typedef {Object} ProjectArgs
+ * @property {string} projectKey - Clave única del proyecto en SonarQube, utilizada para identificar el proyecto.
+ * @property {string} projectName - Nombre del proyecto que se analizará en SonarQube.
+ * @property {string} token - Token de autenticación necesario para conectar con el servidor SonarQube.
+ * @property {string} projectLanguage - Lenguaje de programación utilizado en el proyecto que se analizará.
  */
+
+// Crear una instancia del servicio que maneja los argumentos del proyecto
 const argumentHandlerService = new ArgumentHandlerService();
 
+// Obtener los argumentos del proyecto
+const args = argumentHandlerService.initArgs();
+
 /**
- * Inicializar los argumentos del proyecto utilizando la instancia de ArgumentHandlerService.
- * 
- * @typedef {Object} ProjectArgs
- * @property {string} projectKey - Clave única del proyecto en SonarQube.
- * @property {string} projectName - Nombre del proyecto.
- * @property {string} token - Token de autenticación para SonarQube.
- * @property {string} projectLanguaje - Tipo de lenguaje del proyecto.
+ * Desestructurar los argumentos obtenidos para extraer las propiedades necesarias.
  * 
  * @type {ProjectArgs}
  */
@@ -41,23 +42,25 @@ const {
     projectKey,
     projectName,
     token,
-    projectLanguaje,
-} = argumentHandlerService.initArgs();
+    projectLanguage,
+} = args;
 
-/**
- * Crear una instancia de SonarQubeService con los argumentos del proyecto.
- * 
- * @type {SonarQubeService}
- */
+// Validar que todos los argumentos necesarios estén presentes
+if (!projectKey || !projectName || !token || !projectLanguage) {
+    console.error('Error de inicialización: faltan argumentos requeridos.');
+    process.exit(1); // Salir del proceso con código de error
+}
+
+// Crear una instancia del servicio para interactuar con SonarQube
 const sonarQubeService = new SonarQubeService(
     projectKey,
     projectName,
     token,
-    projectLanguaje,
+    projectLanguage
 );
 
-// Configurar SonarQubeService con la configuración necesaria
+// Configurar el servicio de SonarQube con la configuración necesaria
 sonarQubeService.setupConfiguration();
 
-// Ejecutar el análisis en SonarQube utilizando la instancia de SonarQubeService
+// Ejecutar el análisis del código en SonarQube
 sonarQubeService.run();
