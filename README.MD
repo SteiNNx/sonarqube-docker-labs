@@ -40,20 +40,9 @@ Para configurar y ejecutar el entorno local de SonarQube, sigue los pasos a cont
 
 Para evaluar tu código con SonarQube, sigue estos pasos:
 
-1. **Modificar el archivo `.gitattribute`:**
+1. **Generar el token de SonarQube:** Asegúrate de tener un token generado para la evaluación.
 
-   Edita el archivo [.gitattribute](.gitattribute) y elimina o ajusta las siguientes líneas para incluir la ubicación de tu carpeta de código:
-
-   ```text
-   ./code/**
-   /code/**
-   /.code/**
-   code/**
-   ```
-
-2. **Generar el token de SonarQube:** Asegúrate de tener un token generado para la evaluación.
-
-3. **Ejecutar el script de evaluación:**
+2. **Ejecutar el script de evaluación:**
 
    Usa el siguiente comando para iniciar la evaluación de tu código:
 
