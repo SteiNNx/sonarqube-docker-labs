@@ -1,4 +1,4 @@
-/** 
+/**
  * @fileoverview
  * @author Jorge Reyes (@steinnx en GitHub)
  * @description
@@ -7,7 +7,6 @@
  * Asegúrate de que el servidor SonarQube esté en funcionamiento antes de
  * ejecutar esta aplicación, utilizando un archivo docker-compose.yml para su
  * configuración.
- * 
  * @version 1.0.0
  * @module index
  */
@@ -32,17 +31,15 @@ const argumentHandlerService = new ArgumentHandlerService();
 
 // Obtener los argumentos del proyecto
 const args = argumentHandlerService.initArgs();
-
 /**
  * Desestructurar los argumentos obtenidos para extraer las propiedades necesarias.
- * 
  * @type {ProjectArgs}
  */
 const {
     projectKey,
     projectName,
     token,
-    projectLanguage,
+    projectLanguage
 } = args;
 
 // Validar que todos los argumentos necesarios estén presentes

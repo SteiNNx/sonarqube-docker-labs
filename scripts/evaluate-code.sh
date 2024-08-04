@@ -69,7 +69,7 @@ debug_info() {
 
 # Función para mostrar el mensaje de ayuda
 show_help() {
-    node index.js --help
+    node src/index.js --help
     exit 0
 }
 

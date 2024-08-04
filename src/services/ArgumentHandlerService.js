@@ -7,7 +7,7 @@ const {
     ARGV_INDEX_PROJECT_KEY,
     ARGV_INDEX_PROJECT_NAME,
     ARGV_INDEX_PROJECT_LANGUAJE,
-    ARGV_INDEX_TOKEN,
+    ARGV_INDEX_TOKEN
 } = require('@src/constants/Constants');
 
 /**
@@ -17,17 +17,16 @@ class ArgumentHandlerService {
     /**
      * Crea una instancia de ArgumentHandlerService.
      */
-    constructor() {
+    constructor () {
         // Crear una instancia de ArgumentHandler con los valores por defecto
         this.argumentHandlerInstance = new ArgumentHandler();
     }
 
     /**
      * Inicializa los argumentos de la línea de comandos.
-     * 
      * @returns {Object} - Los argumentos inicializados.
      */
-    initArgs() {
+    initArgs () {
         // Mostrar la ayuda si se proporciona el argumento --help
         this.argumentHandlerInstance.showHelp();
 
@@ -44,7 +43,7 @@ class ArgumentHandlerService {
             projectKey,
             projectName,
             token,
-            projectLanguaje,
+            projectLanguaje
         };
     }
 }
