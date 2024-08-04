@@ -1,14 +1,23 @@
-// @path src/service/SonarQubeService.js
+// @path src/services/SonarQubeService.js
 const sonarqubeScanner = require('sonarqube-scanner').default; // Importa el escáner de SonarQube
 const path = require('path'); // Importa el módulo path de Node.js
+const {
+    ENVIRONMENT,
+    SONARQUBE_URL_ENDPOINT,
+    SOURCE_PATH_CODE_TO_ANALIZE,
+} = require('@src/constants/Constants');
 
 class SonarQubeService {
-    constructor(projectKey, token, sourcePath, projectLanguage, serverUrl) {
+    constructor(projectKey, projectName, token, projectLanguaje) {
         this.projectKey = projectKey;
+        this.projectName = projectName;
         this.token = token;
-        this.sourcePath = sourcePath;
-        this.projectLanguage = projectLanguage;
-        this.serverUrl = serverUrl;
+        this.projectLanguaje = projectLanguaje;
+    }
+
+    setupConfiguration() {
+        this.sourcePath = SOURCE_PATH_CODE_TO_ANALIZE;
+        this.serverUrl = SONARQUBE_URL_ENDPOINT;
         this.projectBaseDir = path.resolve(__dirname, '../../'); // Ajusta según la estructura de tu proyecto
     }
 
@@ -22,8 +31,7 @@ class SonarQubeService {
                 serverUrl: this.serverUrl,
                 options: {
                     ...this.getInitialProjectConfig(),
-                    ...this.getProjectLanguageConfig(this.projectLanguage),
-                    ...this.getProjectShitsConfig(),
+                    ...this.getprojectLanguajeConfig(this.projectLanguaje),
                     ...this.getExclusionsConfig(), // Añade la configuración de exclusiones
                 },
             },
@@ -49,23 +57,26 @@ class SonarQubeService {
      * Obtiene la configuración inicial del proyecto
      * @returns {Object} - Configuración inicial del proyecto
      */
-    getInitialProjectConfig() {       
+    getInitialProjectConfig() {
         return {
             'sonar.projectKey': this.projectKey,
             'sonar.token': this.token,
-            'sonar.sources': path.join(this.projectBaseDir, 'code/src'),  // Ruta a evaluar
+            'sonar.sources': this.sourcePath,  // Ruta a evaluar
             'sonar.projectBaseDir': this.projectBaseDir,
-            'sonar.log.level': 'DEBUG',
+            'sonar.log.level': ENVIRONMENT === 'development' ? 'DEBUG' : 'INFO',
+            'sonar.sourceEncoding': 'UTF-8', 
         };
     }
-    
-    
+
+
     /**
      * Obtiene la configuración específica del proyecto según su tipo
      * @param {string} language - El tipo de proyecto
      * @returns {Object} - Configuración específica del proyecto
      */
-    getProjectLanguageConfig(language) {
+    getprojectLanguajeConfig(language) {
+        console.log({ language });
+
         switch (language) {
             case 'js':
                 return {
@@ -99,16 +110,6 @@ class SonarQubeService {
                     'sonar.test.inclusions': '**/*.kt,**/*.java,**/*.py,**/*.php,**/*.spec.js,**/*.spec.jsx,**/*.spec.ts,**/*.spec.tsx',
                 };
         }
-    }
-
-    /**
-     * Obtiene la configuración del proyecto con rutas de informes LCOV
-     * @returns {Object} - Configuración del proyecto con informes LCOV
-     */
-    getProjectShitsConfig() {
-        return {
-            'sonar.javascript.lcov.reportPaths': path.join(this.sourcePath, 'coverage/lcov.info'),
-        };
     }
 
     /**

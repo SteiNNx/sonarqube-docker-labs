@@ -5,17 +5,17 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "sonar": "node index.js <projectKey> <token> <sourcePath> <projectType>"
+    "start": "node index.js --help"
   },
   "_moduleAliases": {
     "@create": "src/main.js",
-    "@root/": ".",
     "@src": "src"
   },
   "devDependencies": {
     "sonarqube-scanner": "4.0.1"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "module-alias": "^2.2.3"
   }
 }

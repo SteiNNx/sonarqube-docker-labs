@@ -5,9 +5,6 @@
             "@create": [
                 "src/js/index.js"
             ],
-            "@root/*": [
-                "./*"
-            ],
             "@src/*": [
                 "src/*"
             ]

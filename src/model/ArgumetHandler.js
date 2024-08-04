@@ -1,11 +1,11 @@
 // @path src/model/ArgumentHandler.js
+const { CONSOLE_HELP_MESSAGE } = require('@src/constants/Constants');
+
 class ArgumentHandler {
     /**
      * Crea una instancia de ArgumentHandler.
-     * @param {Object} defaults Los valores por defecto de los argumentos.
      */
-    constructor(defaults) {
-        this.defaults = defaults;  // Valores por defecto de los argumentos
+    constructor() {
         this.args = this.parseArgs();  // Argumentos analizados
     }
 
@@ -23,20 +23,19 @@ class ArgumentHandler {
     /**
      * Obtiene un argumento en una posición específica.
      * @param {number} index La posición del argumento.
-     * @param {any} defaultValue El valor por defecto si no se encuentra el argumento.
      * @returns {any} El valor del argumento o el valor por defecto.
      */
-    getArgument(index, defaultValue) {
-        return this.args.parsedArgs[index] || defaultValue;  // Retorna el valor del argumento o el valor por defecto
+    getArgument(index) {
+        return this.args.parsedArgs[index];
     }
 
     /**
      * Muestra el texto de ayuda si se incluyó el flag correspondiente.
-     * @param {string} helpText El texto de ayuda a mostrar.
      */
-    showHelp(helpText) {
+    showHelp() {
+        console.log(this.args);
         if (this.args.helpFlag) {
-            console.info(helpText);  // Muestra el texto de ayuda en la consola
+            console.info(CONSOLE_HELP_MESSAGE);  // Muestra el texto de ayuda en la consola
             process.exit(0);  // Sale del proceso con código 0
         }
     }
