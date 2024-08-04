@@ -1,15 +1,15 @@
-# SonarQube Integration for Android Studio
+# SonarQube Docker Labs
 
-## Overview
+## Descripcion
 
 SonarQube es una herramienta de código abierto que inspecciona la calidad del código mediante análisis estático, ayudando a identificar errores, vulnerabilidades y a mejorar la calidad general del código.
 
-Este documento proporciona instrucciones detalladas sobre cómo configurar SonarQube en Docker y cómo integrarlo con un proyecto Android en Android Studio, además de cómo utilizar `sonarqube-scanner` para un análisis más profundo.
+Este documento proporciona instrucciones detalladas sobre cómo configurar SonarQube en Docker y cómo integrarlo con distintos proyectos, además de cómo utilizar `sonarqube-scanner` para un análisis más profundo.
 
 ## Tabla de Contenidos
 
-- [SonarQube Integration for Android Studio](#sonarqube-integration-for-android-studio)
-  - [Overview](#overview)
+- [SonarQube Docker Labs](#sonarqube-docker-labs)
+  - [Descripcion](#descripcion)
   - [Tabla de Contenidos](#tabla-de-contenidos)
   - [Requisitos Previos](#requisitos-previos)
   - [Configuración de SonarQube con Docker](#configuración-de-sonarqube-con-docker)

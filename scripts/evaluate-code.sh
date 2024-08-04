@@ -54,8 +54,8 @@ execute_command() {
     local token="$3"
     local project_type="$4"
 
-    info "Ejecutando: node index.js \"$project_key\" \"$project_name\" \"$token\" \"$project_type\""
-    node index.js "$project_key" "$project_name" "$token" "$project_type"
+    info "Ejecutando: node src/index.js \"$project_key\" \"$project_name\" \"$token\" \"$project_type\""
+    node src/index.js "$project_key" "$project_name" "$token" "$project_type"
 }
 
 # Función para mostrar información de depuración

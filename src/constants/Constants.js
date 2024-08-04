@@ -1,11 +1,13 @@
-// @path src/contants/Constants.js
 const dotenv = require('dotenv');
 
+// Cargar las variables de entorno desde el archivo .env
 dotenv.config();
 
+// Definir las constantes para la configuración del entorno y la URL de SonarQube
 const ENVIRONMENT = process.env.ENVIRONMENT;
 const SONARQUBE_URL_ENDPOINT = process.env.SONARQUBE_URL_ENDPOINT;
 
+// Ruta por defecto al código que se va a analizar
 const SOURCE_PATH_CODE_TO_ANALIZE = 'code';
 
 // Mensaje de ayuda para la consola
@@ -23,12 +25,14 @@ Ejemplos:
   node index.js anotherProject anotherProjectName anotherToken java
 `;
 
+// Definir los índices y el número de argumentos requeridos para la línea de comandos
 const ARGV_REQUIRED_ARGUMENTS = 4;
 const ARGV_INDEX_PROJECT_KEY = 0;
 const ARGV_INDEX_PROJECT_NAME = 1;
 const ARGV_INDEX_TOKEN = 2;
 const ARGV_INDEX_PROJECT_LANGUAJE = 3;
 
+// Exportar las constantes para su uso en otros módulos
 module.exports = {
     ARGV_REQUIRED_ARGUMENTS,
     ARGV_INDEX_PROJECT_KEY,

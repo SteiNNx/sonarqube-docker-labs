@@ -1,9 +1,12 @@
-// @path src/model/ArgumentHandler.js
+// Importar constantes relacionadas con los mensajes de ayuda
 const { CONSOLE_HELP_MESSAGE } = require('@src/constants/Constants');
 
+/**
+ * Clase para manejar los argumentos de la línea de comandos.
+ */
 class ArgumentHandler {
     /**
-     * Crea una instancia de ArgumentHandler.
+     * Crea una instancia de ArgumentHandler y analiza los argumentos.
      */
     constructor() {
         this.args = this.parseArgs();  // Argumentos analizados
@@ -11,7 +14,8 @@ class ArgumentHandler {
 
     /**
      * Analiza los argumentos de la línea de comandos.
-     * @returns {Object} Los argumentos analizados y si se incluyó el flag de ayuda.
+     * 
+     * @returns {Object} - Los argumentos analizados y si se incluyó el flag de ayuda.
      */
     parseArgs() {
         const args = process.argv.slice(2);  // Obtiene los argumentos de la línea de comandos
@@ -22,8 +26,9 @@ class ArgumentHandler {
 
     /**
      * Obtiene un argumento en una posición específica.
-     * @param {number} index La posición del argumento.
-     * @returns {any} El valor del argumento o el valor por defecto.
+     * 
+     * @param {number} index - La posición del argumento.
+     * @returns {any} - El valor del argumento o el valor por defecto.
      */
     getArgument(index) {
         return this.args.parsedArgs[index];
@@ -42,7 +47,8 @@ class ArgumentHandler {
 
     /**
      * Valida que se hayan proporcionado el número correcto de argumentos.
-     * @param {number} requiredCount El número de argumentos requeridos.
+     * 
+     * @param {number} requiredCount - El número de argumentos requeridos.
      */
     validateArguments(requiredCount) {
         if (this.args.parsedArgs.length < requiredCount) {  // Si no se proporcionaron suficientes argumentos

@@ -1,13 +1,28 @@
-// @path src/services/SonarQubeService.js
-const sonarqubeScanner = require('sonarqube-scanner').default; // Importa el escáner de SonarQube
-const path = require('path'); // Importa el módulo path de Node.js
+// Importar el escáner de SonarQube
+const sonarqubeScanner = require('sonarqube-scanner').default;
+
+// Importar el módulo path de Node.js
+const path = require('path');
+
+// Importar constantes relacionadas con la configuración
 const {
     ENVIRONMENT,
     SONARQUBE_URL_ENDPOINT,
     SOURCE_PATH_CODE_TO_ANALIZE,
 } = require('@src/constants/Constants');
 
+/**
+ * Clase para manejar el análisis de código con SonarQube.
+ */
 class SonarQubeService {
+    /**
+     * Crea una instancia de SonarQubeService.
+     * 
+     * @param {string} projectKey - Clave del proyecto en SonarQube.
+     * @param {string} projectName - Nombre del proyecto.
+     * @param {string} token - Token de autenticación de SonarQube.
+     * @param {string} projectLanguaje - Tipo de lenguaje del proyecto.
+     */
     constructor(projectKey, projectName, token, projectLanguaje) {
         this.projectKey = projectKey;
         this.projectName = projectName;
@@ -15,6 +30,9 @@ class SonarQubeService {
         this.projectLanguaje = projectLanguaje;
     }
 
+    /**
+     * Configura los parámetros necesarios para el análisis.
+     */
     setupConfiguration() {
         this.sourcePath = SOURCE_PATH_CODE_TO_ANALIZE;
         this.serverUrl = SONARQUBE_URL_ENDPOINT;
@@ -22,10 +40,11 @@ class SonarQubeService {
     }
 
     /**
-     * Ejecuta el escáner de SonarQube
+     * Ejecuta el escáner de SonarQube.
      */
     run() {
         this.screenConfig(); // Muestra la configuración del escáner
+
         sonarqubeScanner(
             {
                 serverUrl: this.serverUrl,
@@ -37,16 +56,15 @@ class SonarQubeService {
             },
             () => {
                 console.log('Análisis de SonarQube completado.'); // Muestra un mensaje al completar el análisis
-            },
+            }
         );
     }
 
     /**
-     * Muestra la configuración del escáner en la consola
+     * Muestra la configuración del escáner en la consola.
      */
     screenConfig() {
-        console.log('\n');
-        console.log('### Configuración');
+        console.log('\n### Configuración');
         Object.entries(this).forEach(([key, value]) => {
             console.log(`## ${key} \t\t\t\t: ${value}`); // Muestra cada clave y valor del objeto
         });
@@ -54,8 +72,9 @@ class SonarQubeService {
     }
 
     /**
-     * Obtiene la configuración inicial del proyecto
-     * @returns {Object} - Configuración inicial del proyecto
+     * Obtiene la configuración inicial del proyecto.
+     * 
+     * @returns {Object} - Configuración inicial del proyecto.
      */
     getInitialProjectConfig() {
         return {
@@ -64,15 +83,15 @@ class SonarQubeService {
             'sonar.sources': this.sourcePath,  // Ruta a evaluar
             'sonar.projectBaseDir': this.projectBaseDir,
             'sonar.log.level': ENVIRONMENT === 'development' ? 'DEBUG' : 'INFO',
-            'sonar.sourceEncoding': 'UTF-8', 
+            'sonar.sourceEncoding': 'UTF-8',
         };
     }
 
-
     /**
-     * Obtiene la configuración específica del proyecto según su tipo
-     * @param {string} language - El tipo de proyecto
-     * @returns {Object} - Configuración específica del proyecto
+     * Obtiene la configuración específica del proyecto según su tipo.
+     * 
+     * @param {string} language - El tipo de proyecto.
+     * @returns {Object} - Configuración específica del proyecto.
      */
     getprojectLanguajeConfig(language) {
         console.log({ language });
@@ -113,8 +132,9 @@ class SonarQubeService {
     }
 
     /**
-     * Obtiene la configuración de exclusiones de archivos y carpetas
-     * @returns {Object} - Configuración de exclusiones
+     * Obtiene la configuración de exclusiones de archivos y carpetas.
+     * 
+     * @returns {Object} - Configuración de exclusiones.
      */
     getExclusionsConfig() {
         return {
