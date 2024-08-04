@@ -1,14 +1,15 @@
-// @path src/service/Sonarqube.js
+// @path src/service/SonarQubeService.js
 const sonarqubeScanner = require('sonarqube-scanner').default; // Importa el escáner de SonarQube
 const path = require('path'); // Importa el módulo path de Node.js
 
 class SonarQubeService {
-    constructor(projectKey, token, sourcePath, projectLanguaje, serverUrl) {
+    constructor(projectKey, token, sourcePath, projectLanguage, serverUrl) {
         this.projectKey = projectKey;
         this.token = token;
         this.sourcePath = sourcePath;
-        this.projectLanguaje = projectLanguaje;
+        this.projectLanguage = projectLanguage;
         this.serverUrl = serverUrl;
+        this.projectBaseDir = path.resolve(__dirname, '../../'); // Ajusta según la estructura de tu proyecto
     }
 
     /**
@@ -21,7 +22,9 @@ class SonarQubeService {
                 serverUrl: this.serverUrl,
                 options: {
                     ...this.getInitialProjectConfig(),
-                    ...this.getProjectLanguajeConfig(this.projectLanguaje),
+                    ...this.getProjectLanguageConfig(this.projectLanguage),
+                    ...this.getProjectShitsConfig(),
+                    ...this.getExclusionsConfig(), // Añade la configuración de exclusiones
                 },
             },
             () => {
@@ -35,7 +38,7 @@ class SonarQubeService {
      */
     screenConfig() {
         console.log('\n');
-        console.log('### Configuracion');
+        console.log('### Configuración');
         Object.entries(this).forEach(([key, value]) => {
             console.log(`## ${key} \t\t\t\t: ${value}`); // Muestra cada clave y valor del objeto
         });
@@ -50,20 +53,20 @@ class SonarQubeService {
         return {
             'sonar.projectKey': this.projectKey,
             'sonar.token': this.token,
-            'sonar.sources': this.sourcePath,
-            'sonar.tests': this.sourcePath, // Directorio base para pruebas
-            'sonar.exclusions': '**/*.properties', // Excluir archivos .properties
+            'sonar.sources': path.join(this.projectBaseDir, 'code/src'),  // Ruta a evaluar
+            'sonar.projectBaseDir': this.projectBaseDir,
+            'sonar.log.level': 'DEBUG',
         };
     }
     
-
+    
     /**
      * Obtiene la configuración específica del proyecto según su tipo
-     * @param {string} languaje - El tipo de proyecto
+     * @param {string} language - El tipo de proyecto
      * @returns {Object} - Configuración específica del proyecto
      */
-    getProjectLanguajeConfig(languaje) {
-        switch (languaje) {
+    getProjectLanguageConfig(language) {
+        switch (language) {
             case 'js':
                 return {
                     'sonar.language': 'js',
@@ -105,6 +108,16 @@ class SonarQubeService {
     getProjectShitsConfig() {
         return {
             'sonar.javascript.lcov.reportPaths': path.join(this.sourcePath, 'coverage/lcov.info'),
+        };
+    }
+
+    /**
+     * Obtiene la configuración de exclusiones de archivos y carpetas
+     * @returns {Object} - Configuración de exclusiones
+     */
+    getExclusionsConfig() {
+        return {
+            'sonar.exclusions': '**/package.json,**/node_modules/**,.gitignore', // Ajusta los patrones de exclusión según sea necesario
         };
     }
 }
