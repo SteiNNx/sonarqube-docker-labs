@@ -38,7 +38,6 @@ class ArgumentHandler {
      * Muestra el texto de ayuda si se incluyó el flag correspondiente.
      */
     showHelp() {
-        console.log(this.args);
         if (this.args.helpFlag) {
             console.info(CONSOLE_HELP_MESSAGE);  // Muestra el texto de ayuda en la consola
             process.exit(0);  // Sale del proceso con código 0
