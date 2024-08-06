@@ -73,6 +73,14 @@ show_help() {
     exit 0
 }
 
+checkmarx(){
+    init_docker_containers \
+        "${CHECKMARX_SUITE_PROJECT_NAME}" \
+        "./scripts/docker/docker-compose-checkmarx-server.yml" \
+        "$1" \
+        "Checkmarx Iniciado." \
+        "No se pudo iniciar Checkmarx. Verifica el archivo docker-compose."
+}
 
 # Función principal
 main() {
@@ -93,6 +101,7 @@ main() {
 
     # Ejecutar el comando con los parámetros obtenidos
     execute_command "$project_key" "$project_name" "$token" "$project_type"
+    checkmarx
 }
 
 # Ejecutar función principal

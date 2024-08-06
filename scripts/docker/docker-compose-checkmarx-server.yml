@@ -7,6 +7,6 @@ services:
       dockerfile: scripts/docker/images/Dockerfile.checkmarx
     volumes:
       - ${FOLDER_TO_EVALUATE_CODE}:/code:ro
-      - ./results:/results
+      - ${FOLDER_TO_EVALUATE_CODE_RESULT}:/results
     working_dir: /code
-    command: ["scan", "-p", "/code", "-o", "/results/results.json"]
+    command: ["scan", "-p", "/code", "-o", "/results","--verbose"]
