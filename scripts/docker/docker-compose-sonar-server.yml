@@ -1,60 +1,95 @@
 version: "3.8"
+
+# Definición de los servicios
 services:
+    # Servicio de SonarQube
     sonarqube:
+        # Nombre de host para el contenedor
         hostname: ${SONARQUBE_HOSTNAME}
+        # Nombre del contenedor
         container_name: ${SONARQUBE_CONTAINER_NAME}
+        # Imagen Docker a usar para el servicio
         image: ${SONARQUBE_IMAGE}
+        # Dependencias del servicio, en este caso, debe esperar a que el servicio de base de datos esté saludable
         depends_on:
             sonarqube-database:
                 condition: service_healthy
+        # Configuración de chequeo de salud del contenedor
         healthcheck:
+            # Comando para verificar la salud del servicio
             test: ["CMD-SHELL", "curl --silent --fail http://localhost:9000/api/system/health"]
+            # Intervalo entre chequeos de salud
             interval: 30s
+            # Tiempo de espera para el chequeo
             timeout: 10s
+            # Número de reintentos antes de marcar el contenedor como no saludable
             retries: 3
+        # Variables de entorno para configurar SonarQube
         environment:
             - SONARQUBE_JDBC_USERNAME=${SONARQUBE_JDBC_USERNAME}
             - SONARQUBE_JDBC_PASSWORD=${SONARQUBE_JDBC_PASSWORD}
             - SONARQUBE_JDBC_URL=${SONARQUBE_JDBC_URL}
+        # Montaje de volúmenes para persistencia de datos y configuración
         volumes:
             - sonarqube_conf:/opt/sonarqube/conf
             - sonarqube_data:/opt/sonarqube/data
             - sonarqube_extensions:/opt/sonarqube/extensions
             - sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins
+        # Configuración de puertos
         ports:
             - ${SONARQUBE_PORT}:9000
+        # Configuración de redes
         networks:
             - sonarqube-net
 
+    # Servicio de base de datos de SonarQube
     sonarqube-database:
+        # Nombre de host para el contenedor de la base de datos
         hostname: ${SONARQUBE_POSTGRES_HOSTNAME}
+        # Nombre del contenedor de la base de datos
         container_name: ${SONARQUBE_POSTGRES_CONTAINER_NAME}
+        # Imagen Docker a usar para el servicio de base de datos
         image: ${SONARQUBE_POSTGRES_IMAGE}
+        # Configuración de chequeo de salud del contenedor
         healthcheck:
+            # Comando para verificar la salud del servicio de base de datos
             test: ["CMD-SHELL", "pg_isready"]
+            # Intervalo entre chequeos de salud
             interval: 10s
+            # Tiempo de espera para el chequeo
             timeout: 5s
+            # Número de reintentos antes de marcar el contenedor como no saludable
             retries: 5
+        # Variables de entorno para configurar la base de datos
         environment:
             - POSTGRES_DB=${SONARQUBE_POSTGRES_DB}
             - POSTGRES_USER=${SONARQUBE_POSTGRES_USER}
             - POSTGRES_PASSWORD=${SONARQUBE_POSTGRES_PASSWORD}
+        # Montaje de volúmenes para persistencia de datos
         volumes:
             - sonarqube_database:/var/lib/postgresql
             - sonarqube_database_data:/var/lib/postgresql/data
+        # Configuración de puertos
         ports:
             - ${SONARQUBE_POSTGRES_PORT}:5432
+        # Configuración de redes
         networks:
             - sonarqube-net
 
+# Definición de volúmenes persistentes
 volumes:
+    # Volúmenes para la configuración de SonarQube
     sonarqube_database_data:
     sonarqube_bundled-plugins:
     sonarqube_conf:
     sonarqube_data:
+    # Volúmenes para la base de datos de SonarQube
     sonarqube_database:
     sonarqube_extensions:
 
+# Definición de redes
 networks:
+    # Red personalizada para la comunicación entre contenedores
     sonarqube-net:
+        # Tipo de red, 'bridge' crea una red de puente local
         driver: bridge

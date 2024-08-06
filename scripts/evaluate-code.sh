@@ -99,9 +99,10 @@ main() {
     # Mostrar información de depuración
     debug_info
 
-    # Ejecutar el comando con los parámetros obtenidos
-    execute_command "$project_key" "$project_name" "$token" "$project_type"
+    # Ejecutar Checkmarx
     checkmarx
+    # Ejecutar el comando con los parámetros obtenidos
+    #execute_command "$project_key" "$project_name" "$token" "$project_type"
 }
 
 # Ejecutar función principal
