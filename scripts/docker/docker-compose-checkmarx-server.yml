@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  checkmarx:
+    hostname: ${CHECKMARX_HOSTNAME}
+    container_name: ${CHECKMARX_CONTAINER_NAME}
+    image: ${CHECKMARX_IMAGE}
+    environment:
+      - CHECKMARX_USERNAME=${CHECKMARX_USERNAME}
+      - CHECKMARX_PASSWORD=${CHECKMARX_PASSWORD}
+      - CHECKMARX_HOST=${CHECKMARX_HOST}
+      - CHECKMARX_DB_HOST=${CHECKMARX_POSTGRES_HOST}
+      - CHECKMARX_DB_PORT=${CHECKMARX_POSTGRES_PORT}
+      - CHECKMARX_DB_NAME=${CHECKMARX_POSTGRES_NAME}
+      - CHECKMARX_DB_USER=${CHECKMARX_POSTGRES_USER}
+      - CHECKMARX_DB_PASSWORD=${CHECKMARX_POSTGRES_PASSWORD}
+      - CHECKMARX_SCAN_TYPE=${CHECKMARX_SCAN_TYPE}
+      - CHECKMARX_MAX_SCANS=${CHECKMARX_MAX_SCANS}
+    ports:
+      - ${CHECKMARX_PORT}:80
+    volumes:
+      - ${FOLDER_TO_EVALUATE_CODE}:/code:ro
+    depends_on:
+      - checkmarx-database
+    networks:
+      - checkmarx-network
+
+  checkmarx-database:
+    hostname: ${CHECKMARX_POSTGRES_HOSTNAME}
+    container_name: ${CHECKMARX_POSTGRES_CONTAINER_NAME}
+    image: ${CHECKMARX_POSTGRES_IMAGE}
+    environment:
+      - POSTGRES_DB=${CHECKMARX_POSTGRES_NAME}
+      - POSTGRES_USER=${CHECKMARX_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${CHECKMARX_POSTGRES_PASSWORD}
+    volumes:
+      - checkmarx_database:/var/lib/postgresql
+      - checkmarx_database_data:/var/lib/postgresql/data
+    ports:
+      - ${CHECKMARX_POSTGRES_PORT}:5432
+    networks:
+      - checkmarx-network
+
+volumes:
+  checkmarx_database:
+  checkmarx_database_data:
+
+networks:
+  checkmarx-network:
+    driver: bridge
