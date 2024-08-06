@@ -1,109 +1,77 @@
 #!/bin/bash
-
+# evaluate-code.sh
 # Autor: Jorge Reyes
-# Descripción: Script para ejecutar `node src/index.js` con parámetros obtenidos del archivo `code/sonar-project.properties`.
 
-# Incluir funciones de utilidad
+# Carga funciones de utilidad
 source scripts/command/main.sh
 
-# Función para leer un valor de una línea en el archivo de propiedades
-get_property_value() {
-    local property_file="$1"
-    local property_name="$2"
-    grep "^$property_name=" "$property_file" | cut -d'=' -f2
-}
-
-# Función para validar una variable no vacía
+# Valida que una variable no esté vacía
 validate_var() {
-    local var="$1"
-    local var_name="$2"
-    if [ -z "$var" ]; then
-        critical_error "Error: El valor de $var_name no puede estar vacío."
+    if [ -z "$1" ]; then
+        critical_error "Error: $2 no puede estar vacío."
         exit 1
     fi
 }
 
-# Función para solicitar una propiedad al usuario
+# Solicita al usuario un valor y lo asigna a una variable
 prompt_for_property() {
-    local prompt_message="$1"
-    local property_var_name="$2"
-
-    read -p "$prompt_message" "$property_var_name"
+    read -p "$1: " "$2"
 }
 
-# Función para solicitar todas las propiedades del usuario
-prompt_for_properties() {
-    prompt_for_property "Introduce el project_key: " project_key
-    prompt_for_property "Introduce el projectName: " project_name
-    prompt_for_property "Introduce el token: " token
-    prompt_for_property "Introduce el project_type: " project_type
+# Recopila y valida la entrada del usuario para todas las propiedades
+collect_and_validate_properties() {
+    for prop in project_key project_name token project_type; do
+        prompt_for_property "Ingresa $prop" "$prop"
+        validate_var "${!prop}" "$prop"
+    done
 }
 
-# Función para validar todas las propiedades
-validate_properties() {
-    validate_var "$project_key" "project_key"
-    validate_var "$project_name" "projectName"
-    validate_var "$token" "token"
-    validate_var "$project_type" "project_type"
+# Ejecuta el análisis de SonarQube usando el script de Node.js
+start_sonarqube_analysis() {
+    info "Ejecutando: node src/index.js $@"
+    node src/index.js "$@"
 }
 
-# Función para ejecutar el comando `node src/index.js`
-execute_command() {
-    local project_key="$1"
-    local project_name="$2"
-    local token="$3"
-    local project_type="$4"
-
-    info "Ejecutando: node src/index.js \"$project_key\" \"$project_name\" \"$token\" \"$project_type\""
-    node src/index.js "$project_key" "$project_name" "$token" "$project_type"
-}
-
-# Función para mostrar información de depuración
+# Muestra información de depuración
 debug_info() {
-    echo "### Configuración bash"
-    echo "## projectKey        : $project_key"
-    echo "## projectName       : $project_name"
-    echo "## token             : $token"
-    echo "## projectLanguaje   : $project_type"
+    echo "### Configuración de Bash"
+    for prop in project_key project_name token project_type; do
+        echo "## $prop: ${!prop}"
+    done
 }
 
-# Función para mostrar el mensaje de ayuda
+# Muestra el mensaje de ayuda usando el script de Node.js
 show_help() {
     node src/index.js --help
     exit 0
 }
 
-checkmarx(){
-    init_docker_containers \
-        "${CHECKMARX_SUITE_PROJECT_NAME}" \
+# Inicia Checkmarx usando Docker Compose
+start_checkmarx_analysis() {
+    init_docker_containers "${CHECKMARX_SUITE_PROJECT_NAME}" \
         "./scripts/docker/docker-compose-checkmarx-server.yml" \
         "$1" \
-        "Checkmarx Iniciado." \
+        "Checkmarx iniciado." \
         "No se pudo iniciar Checkmarx. Verifica el archivo docker-compose."
 }
 
 # Función principal
 main() {
-    # Carga variables de entorno
+    # Carga las variables de entorno
     source_env_vars ".env"
 
-    # Si se pasa el argumento --help, mostrar el mensaje de ayuda
-    if [[ "$1" == "--help" ]]; then
-        show_help
-    fi
+    # Muestra ayuda si se solicita
+    [[ "$1" == "--help" ]] && show_help
 
-    # Solicitar y validar propiedades
-    prompt_for_properties
-    validate_properties
-
-    # Mostrar información de depuración
+    # Recopila, valida y muestra información de las propiedades
+    collect_and_validate_properties
     debug_info
 
-    # Ejecutar Checkmarx
-    checkmarx
-    # Ejecutar el comando con los parámetros obtenidos
-    #execute_command "$project_key" "$project_name" "$token" "$project_type"
+    # Inicia y ejecuta el análisis de CheckMarx
+    start_checkmarx_analysis
+    # Inicia y ejecuta el análisis de SonarQube
+    start_sonarqube_analysis "$project_key" "$project_name" "$token" "$project_type"
 }
 
-# Ejecutar función principal
+# Ejecuta la función principal
 main "$@"
