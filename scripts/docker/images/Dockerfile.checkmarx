@@ -1,0 +1,3 @@
+FROM checkmarx/kics:latest
+
+ENTRYPOINT ["kics"]
